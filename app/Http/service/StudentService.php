@@ -74,4 +74,29 @@ class StudentService
             throw $th;
         }
     }
+    public function deleteStudent(Request $request)
+    {
+        try {
+            if (!$request->has("stu_id")) {
+                return response()->json([
+                    "status" => "failed",
+                    "msg" => "Something went wrong"
+                ]);
+            }
+            $id = $request->stu_id;
+            $student = StudentModel::where("id", $id)->delete();
+            if (!$student) {
+                return response()->json([
+                    "status" => "failed",
+                    "msg" => "Something went wrong"
+                ]);
+            }
+            return response()->json([
+                "status" => "success",
+                "msg" => "Success"
+            ]);
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+    }
 }
